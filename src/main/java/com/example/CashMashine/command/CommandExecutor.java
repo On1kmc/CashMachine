@@ -1,6 +1,6 @@
 package com.example.CashMashine.command;
 
-import com.example.CashMashine.Operation;
+import com.example.CashMashine.utils.Operation;
 import com.example.CashMashine.exception.InterruptOperationException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

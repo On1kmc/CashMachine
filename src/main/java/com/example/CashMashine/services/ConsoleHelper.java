@@ -1,7 +1,8 @@
-package com.example.CashMashine;
+package com.example.CashMashine.services;
 
 
-import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.utils.Operation;
+import com.example.CashMashine.utils.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
 import org.springframework.beans.factory.annotation.Autowired;

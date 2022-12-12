@@ -1,4 +1,4 @@
-package com.example.CashMashine.annotation;
+package com.example.CashMashine.utils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

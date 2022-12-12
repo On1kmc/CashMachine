@@ -1,8 +1,6 @@
-package com.example.CashMashine.BPP;
+package com.example.CashMashine.utils;
 
-import com.example.CashMashine.annotation.BundleResource;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.example.CashMashine;
+package com.example.CashMashine.utils;
 
 public enum Operation {
 

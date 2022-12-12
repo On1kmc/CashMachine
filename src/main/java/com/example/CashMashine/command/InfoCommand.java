@@ -1,8 +1,8 @@
 package com.example.CashMashine.command;
 
-import com.example.CashMashine.ConsoleHelper;
-import com.example.CashMashine.CurrencyManipulatorService;
-import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.services.ConsoleHelper;
+import com.example.CashMashine.services.CurrencyManipulatorService;
+import com.example.CashMashine.utils.BundleResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;

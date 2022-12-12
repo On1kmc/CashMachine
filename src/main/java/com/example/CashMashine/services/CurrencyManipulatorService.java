@@ -1,4 +1,4 @@
-package com.example.CashMashine;
+package com.example.CashMashine.services;
 
 
 import com.example.CashMashine.exception.NotEnoughMoneyException;
@@ -23,12 +23,6 @@ public class CurrencyManipulatorService {
         this.manipulatorRepo = manipulatorRepo;
         this.banknoteRepo = banknoteRepo;
     }
-
-    //private Map<Integer, Integer> denominations;
-
-
-
-
     @Transactional
     public void addAmount(String currency, int denomination, int count) {
         Banknote banknote = banknoteRepo.findAllByCurrencyAndNominal(currency, denomination);
@@ -49,7 +43,8 @@ public class CurrencyManipulatorService {
     }
 
     public boolean hasManipulator(String currency) {
-        return manipulatorRepo.findByCurrency(currency) != null;
+        Manipulator manipulator = manipulatorRepo.findByCurrency(currency.toUpperCase());
+        return manipulator != null;
     }
 
 
@@ -85,7 +80,7 @@ public class CurrencyManipulatorService {
     }
 
     private boolean getNext(int expectedAmount, Map<Integer, Integer> result, List<Integer> list, int currentIndex, String currency) {
-        boolean isFind = false;
+        boolean isFind;
         if (expectedAmount == 0) return true;
         int s;
         int newExpectedAmount;
@@ -107,7 +102,7 @@ public class CurrencyManipulatorService {
 
 
         }
-        return isFind;
+        return false;
     }
 
 }

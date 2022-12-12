@@ -1,8 +1,10 @@
-package com.example.CashMashine;
+package com.example.CashMashine.utils;
 
 import com.example.CashMashine.command.CommandExecutor;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
+import com.example.CashMashine.services.ConsoleHelper;
+import com.example.CashMashine.utils.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
