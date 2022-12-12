@@ -54,7 +54,8 @@ public class ConsoleHelper {
                 "\n 1 - " + res.getMessage("operation.INFO", new Object[]{}, Locale.US) +
                 "\n 2 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.US) +
                 "\n 3 - " + res.getMessage("operation.WITHDRAW", new Object[]{}, Locale.US) +
-                "\n 4 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.US));
+                "\n 4 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.US) +
+                "\n 5 - " + res.getMessage("operation.balance", new Object[]{}, Locale.getDefault()));
         while (true) {
             try {
                 String s = readString().trim();
