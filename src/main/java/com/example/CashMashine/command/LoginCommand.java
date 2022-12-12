@@ -1,19 +1,17 @@
 package com.example.CashMashine.command;
 
-import com.example.CashMashine.models.Bill;
+import com.example.CashMashine.models.Card;
 import com.example.CashMashine.services.ConsoleHelper;
 import com.example.CashMashine.services.LoginService;
+import com.example.CashMashine.services.SessionService;
 import com.example.CashMashine.utils.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 
 @Component
@@ -25,10 +23,13 @@ public class LoginCommand implements Command {
 
     private final LoginService loginService;
 
+    private final SessionService sessionService;
+
     @Autowired
-    public LoginCommand(ConsoleHelper consoleHelper, LoginService loginService) {
+    public LoginCommand(ConsoleHelper consoleHelper, LoginService loginService, SessionService sessionService) {
         this.consoleHelper = consoleHelper;
         this.loginService = loginService;
+        this.sessionService = sessionService;
     }
 
     @Override
@@ -54,9 +55,10 @@ public class LoginCommand implements Command {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("try.again.with.details", new Object[]{}, Locale.getDefault()));
             } else {
                 long cardNumber = Long.parseLong(creditCardNumber);
-                List<Bill> billList = loginService.findAllBillByCardNumber(cardNumber);
-                if (!billList.isEmpty() && billList.get(0).getPinCode() == Integer.parseInt(pinStr)) {
+                Card card = loginService.findByCardNumber(cardNumber);
+                if (card != null && card.getPinCode() == Integer.parseInt(pinStr)) {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{creditCardNumber}, Locale.getDefault()));
+                    sessionService.setCard(card);
                     break;
                 } else {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("not.verified.format", new Object[]{creditCardNumber}, Locale.getDefault()));

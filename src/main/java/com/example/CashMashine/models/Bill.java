@@ -5,45 +5,29 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Bill")
+@Table(name = "bill")
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @Column(name = "card_number")
-    private long cardNumber;
 
-//    @Column(name = "pin_code")
-    private int pinCode;
 
     private String currency;
 
     private int balance;
 
+    @ManyToMany
+    private List<Card> cards;
+
     public int getId() {
         return id;
     }
 
+
     public void setId(int id) {
         this.id = id;
-    }
-
-    public long getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(long cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public int getPinCode() {
-        return pinCode;
-    }
-
-    public void setPinCode(int pinCode) {
-        this.pinCode = pinCode;
     }
 
     public String getCurrency() {

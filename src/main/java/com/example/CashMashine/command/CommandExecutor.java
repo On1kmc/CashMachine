@@ -20,13 +20,16 @@ public class CommandExecutor {
 
     private final WithdrawCommand withdrawCommand;
 
+    private final BalanceCommand balanceCommand;
+
     @Autowired
-    public CommandExecutor(DepositCommand depositCommand, ExitCommand exitCommand, LoginCommand loginCommand, InfoCommand infoCommand, WithdrawCommand withdrawCommand) {
+    public CommandExecutor(DepositCommand depositCommand, ExitCommand exitCommand, LoginCommand loginCommand, InfoCommand infoCommand, WithdrawCommand withdrawCommand, BalanceCommand balanceCommand) {
         this.depositCommand = depositCommand;
         this.exitCommand = exitCommand;
         this.loginCommand = loginCommand;
         this.infoCommand = infoCommand;
         this.withdrawCommand = withdrawCommand;
+        this.balanceCommand = balanceCommand;
     }
 
     private final Map<Operation, Command> allKnownCommandsMap = new HashMap<>();
@@ -38,6 +41,7 @@ public class CommandExecutor {
         allKnownCommandsMap.put(Operation.EXIT, exitCommand);
         allKnownCommandsMap.put(Operation.INFO, infoCommand);
         allKnownCommandsMap.put(Operation.WITHDRAW, withdrawCommand);
+        allKnownCommandsMap.put(Operation.BALANCE, balanceCommand);
     }
 
 

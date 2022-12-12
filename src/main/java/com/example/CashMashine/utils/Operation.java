@@ -6,7 +6,8 @@ public enum Operation {
     INFO,
     DEPOSIT,
     WITHDRAW,
-    EXIT;
+    EXIT,
+    BALANCE;
 
     public static Operation getAllowableOperationByOrdinal(Integer i) {
         switch (i) {
@@ -18,6 +19,8 @@ public enum Operation {
                 return Operation.WITHDRAW;
             case 4:
                 return Operation.EXIT;
+            case 5:
+                return Operation.BALANCE;
             default:
                 throw new IllegalArgumentException();
         }
