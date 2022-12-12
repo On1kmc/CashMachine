@@ -27,9 +27,9 @@ public class WithdrawCommand implements Command {
 
     @Override
     public void execute() throws InterruptOperationException {
-        String currencyCode = consoleHelper.askCurrencyCode();
-        CurrencyManipulator manipulatorByCurrencyCode = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
         while (true) {
+            String currencyCode = consoleHelper.askCurrencyCode();
+            CurrencyManipulator manipulatorByCurrencyCode = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
             consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.US));
             String s = consoleHelper.readString();
             try {

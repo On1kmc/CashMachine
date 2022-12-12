@@ -31,7 +31,7 @@ public class ConsoleHelper {
     public String readString() throws InterruptOperationException {
             try {
                 String string = bis.readLine();
-                if (string.toLowerCase().equals("exit")) {
+                if (string.equalsIgnoreCase("exit")) {
                     throw new InterruptOperationException();
                 }
                 return string;

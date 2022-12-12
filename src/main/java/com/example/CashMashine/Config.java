@@ -30,4 +30,5 @@ public class Config {
     public BufferedReader bufferedReader() {
         return new BufferedReader(new InputStreamReader(System.in));
     }
+
 }

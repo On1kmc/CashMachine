@@ -21,14 +21,17 @@ public class CashMachine implements ApplicationListener<ApplicationStartedEvent>
     public void onApplicationEvent(ApplicationStartedEvent event) {
         Locale.setDefault(Locale.ENGLISH);
         Operation operation;
-        try {
-            commandExecutor.execute(Operation.LOGIN);
-            do {
-                operation = consoleHelper.askOperation();
-                commandExecutor.execute(operation);
-            } while (operation != Operation.EXIT);
-        } catch (InterruptOperationException e) {
-            consoleHelper.printExitMessage();
+        while (true) {
+            try {
+                commandExecutor.execute(Operation.LOGIN);
+                do {
+                    operation = consoleHelper.askOperation();
+                    commandExecutor.execute(operation);
+                } while (operation != Operation.EXIT);
+            } catch (InterruptOperationException e) {
+                consoleHelper.printExitMessage();
+                System.exit(0);
+            }
         }
     }
 }

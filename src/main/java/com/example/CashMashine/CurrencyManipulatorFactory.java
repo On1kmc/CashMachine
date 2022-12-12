@@ -14,7 +14,7 @@ public class CurrencyManipulatorFactory {
         if (map.containsKey(currencyCode.toLowerCase())) {
             return map.get(currencyCode.toLowerCase());
         } else {
-            CurrencyManipulator manipulator = new CurrencyManipulator(currencyCode);
+            CurrencyManipulator manipulator = new CurrencyManipulator(currencyCode, banknoteRepo, consoleHelper);
             map.put(currencyCode.toLowerCase(), manipulator);
             return manipulator;
         }

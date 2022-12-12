@@ -35,8 +35,6 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute() throws InterruptOperationException {
-
-
         while (true) {
             consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.data", new Object[]{}, Locale.US));
             String creditCardNumber = consoleHelper.readString();

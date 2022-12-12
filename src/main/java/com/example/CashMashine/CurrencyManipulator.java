@@ -2,32 +2,38 @@ package com.example.CashMashine;
 
 
 import com.example.CashMashine.exception.NotEnoughMoneyException;
+import com.example.CashMashine.models.Banknote;
+import com.example.CashMashine.repositories.BanknoteRepo;
+import com.example.CashMashine.repositories.ManipulatorRepo;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
+@Component
 public class CurrencyManipulator {
 
+    private final ManipulatorRepo manipulatorRepo;
 
-    private final String currencyCode;
+    private final BanknoteRepo banknoteRepo;
 
-    private Map<Integer, Integer> denominations = new HashMap<>();
+    private final ConsoleHelper consoleHelper;
 
-    public CurrencyManipulator(String currencyCode) {
-        this.currencyCode = currencyCode;
+    public CurrencyManipulator(ManipulatorRepo manipulatorRepo, BanknoteRepo banknoteRepo, ConsoleHelper consoleHelper) {
+        this.manipulatorRepo = manipulatorRepo;
+        this.banknoteRepo = banknoteRepo;
+        this.consoleHelper = consoleHelper;
     }
 
-    public String getCurrencyCode() {
-        return currencyCode;
-    }
+    //private Map<Integer, Integer> denominations;
 
-    public void addAmount(int denomination, int count) {
-        if (denominations.containsKey(denomination)) {
-            denominations.put(denomination, denominations.get(denomination) + count);
-        } else {
-            denominations.put(denomination, count);
-        }
+
+    @Transactional
+    public void addAmount(String currency, int denomination, int count) {
+        Banknote banknote = banknoteRepo.findAllByCurrencyAndNominal(currency, denomination);
+        banknote.setCount(banknote.getCount() + count);
+        banknoteRepo.save(banknote);
     }
 
     public int getTotalAmount() {
