@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ManipulatorRepo extends JpaRepository<Manipulator, Integer> {
 
+    Manipulator findByCurrency(String currency);
 
 }

@@ -1,7 +1,7 @@
 package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
-import com.example.CashMashine.CurrencyManipulator;
+import com.example.CashMashine.CurrencyManipulatorService;
 import com.example.CashMashine.annotation.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
@@ -17,12 +17,12 @@ public class WithdrawCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
-    private final CurrencyManipulator currencyManipulator;
+    private final CurrencyManipulatorService currencyManipulator;
 
     @BundleResource(name = "locale.withdraw")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
-    public WithdrawCommand(ConsoleHelper consoleHelper, CurrencyManipulator currencyManipulator) {
+    public WithdrawCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator) {
         this.consoleHelper = consoleHelper;
         this.currencyManipulator = currencyManipulator;
     }
@@ -51,7 +51,7 @@ public class WithdrawCommand implements Command {
                 try {
                     Map<Integer, Integer> withdrawAmount = currencyManipulator.withdrawAmount(count, currencyCode);
                     withdrawAmount.forEach((key, value) -> consoleHelper.writeMessage("\t" + key + " - " + value));
-                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.US));
+                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{count, currencyCode}, Locale.US));
                     break;
                 } catch (NotEnoughMoneyException e) {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exact.amount.not.available", new Object[]{}, Locale.US));

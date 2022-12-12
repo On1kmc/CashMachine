@@ -13,26 +13,31 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class CurrencyManipulator {
+public class CurrencyManipulatorService {
 
     private final ManipulatorRepo manipulatorRepo;
 
     private final BanknoteRepo banknoteRepo;
 
-    private final ConsoleHelper consoleHelper;
-
-    public CurrencyManipulator(ManipulatorRepo manipulatorRepo, BanknoteRepo banknoteRepo, ConsoleHelper consoleHelper) {
+    public CurrencyManipulatorService(ManipulatorRepo manipulatorRepo, BanknoteRepo banknoteRepo) {
         this.manipulatorRepo = manipulatorRepo;
         this.banknoteRepo = banknoteRepo;
-        this.consoleHelper = consoleHelper;
     }
 
     //private Map<Integer, Integer> denominations;
 
 
+
+
     @Transactional
     public void addAmount(String currency, int denomination, int count) {
         Banknote banknote = banknoteRepo.findAllByCurrencyAndNominal(currency, denomination);
+        if (banknote == null) {
+            banknote = new Banknote();
+            banknote.setNominal(denomination);
+            banknote.setCurrency(currency);
+            banknote.setManipulator(manipulatorRepo.findByCurrency(currency));
+        }
         banknote.setCount(banknote.getCount() + count);
         banknoteRepo.save(banknote);
     }
@@ -42,6 +47,11 @@ public class CurrencyManipulator {
         banknoteRepo.findAllByCurrency(currency).stream().map(s -> s.getNominal() * s.getCount()).forEach(s -> sum.set(sum.get() + s));
         return sum.get();
     }
+
+    public boolean hasManipulator(String currency) {
+        return manipulatorRepo.findByCurrency(currency) != null;
+    }
+
 
     public List<Manipulator> getAllManipulators() {
         return manipulatorRepo.findAll();
@@ -81,13 +91,12 @@ public class CurrencyManipulator {
         int newExpectedAmount;
         for (int i = currentIndex; i < list.size(); i++) {
             if ((s = list.get(i)) <= expectedAmount) {
-                int maxCount = banknoteRepo.findAllByCurrencyAndNominal(currency, s).getCount();
-                int needCount = expectedAmount/s;
-                if (needCount > maxCount) {
-                    result.put(s, maxCount);
-                } else {
-                    result.put(s, needCount);
+                int maxCount;
+                if ((maxCount = banknoteRepo.findAllByCurrencyAndNominal(currency, s).getCount()) == 0) {
+                    continue;
                 }
+                int needCount = expectedAmount/s;
+                result.put(s, Math.min(needCount, maxCount));
                 newExpectedAmount = expectedAmount - result.get(s) * s;
                 isFind = getNext(newExpectedAmount, result, list, i + 1, currency);
                 if (!isFind) {

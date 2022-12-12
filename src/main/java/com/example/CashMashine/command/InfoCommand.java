@@ -1,7 +1,7 @@
 package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
-import com.example.CashMashine.CurrencyManipulator;
+import com.example.CashMashine.CurrencyManipulatorService;
 import com.example.CashMashine.annotation.BundleResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -17,28 +17,31 @@ public class InfoCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
-    private final CurrencyManipulator currencyManipulator;
+    private final CurrencyManipulatorService currencyManipulator;
 
     @BundleResource(name = "locale.info")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
     @Autowired
-    public InfoCommand(ConsoleHelper consoleHelper, CurrencyManipulator currencyManipulator) {
+    public InfoCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator) {
         this.consoleHelper = consoleHelper;
         this.currencyManipulator = currencyManipulator;
     }
 
     @Override
     public void execute() {
-        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
+        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.getDefault()));
         AtomicBoolean hasMoney = new AtomicBoolean(false);
         currencyManipulator.getAllManipulators()
                 .forEach(s ->  {
-                        consoleHelper.writeMessage(s.getCurrency() + " - " + currencyManipulator.getTotalAmount(s.getCurrency()));
-                        hasMoney.set(true);
+                    boolean b = s.getBanknotes().stream().anyMatch(banknote -> banknote.getCount() > 0);
+                    if (b) {
+                            consoleHelper.writeMessage(s.getCurrency() + " - " + currencyManipulator.getTotalAmount(s.getCurrency()));
+                            hasMoney.set(true);
+                        }
                 });
         if (!hasMoney.get()) {
-            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("no.money", new Object[]{}, Locale.US));
+            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("no.money", new Object[]{}, Locale.getDefault()));
         }
     }
 }

@@ -3,7 +3,7 @@ package com.example.CashMashine.command;
 
 
 import com.example.CashMashine.ConsoleHelper;
-import com.example.CashMashine.CurrencyManipulator;
+import com.example.CashMashine.CurrencyManipulatorService;
 import com.example.CashMashine.annotation.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
@@ -22,10 +22,10 @@ public class DepositCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
-    private final CurrencyManipulator currencyManipulator;
+    private final CurrencyManipulatorService currencyManipulator;
 
     @Autowired
-    public DepositCommand(ConsoleHelper consoleHelper, CurrencyManipulator currencyManipulator) {
+    public DepositCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator) {
         this.consoleHelper = consoleHelper;
         this.currencyManipulator = currencyManipulator;
     }
@@ -35,7 +35,7 @@ public class DepositCommand implements Command {
 
     @Override
     public void execute() throws InterruptOperationException {
-        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("common.before", new Object[] {}, Locale.US));
+        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("common.before", new Object[] {}, Locale.getDefault()));
         try {
             String currencyCode = consoleHelper.askCurrencyCode();
             String[] digits = consoleHelper.getValidTwoDigits();

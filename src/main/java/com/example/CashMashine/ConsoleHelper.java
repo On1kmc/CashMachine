@@ -20,9 +20,13 @@ public class ConsoleHelper {
 
     private final BufferedReader bis;
 
+    private final CurrencyManipulatorService currencyManipulatorService;
+
     @Autowired
-    public ConsoleHelper(BufferedReader bis) {
+    public ConsoleHelper(BufferedReader bis, CurrencyManipulatorService currencyManipulatorService) {
         this.bis = bis;
+
+        this.currencyManipulatorService = currencyManipulatorService;
     }
 
     public void writeMessage(String message) {
@@ -66,6 +70,10 @@ public class ConsoleHelper {
             String request = readString();
             if (request == null || request.length() != 3) {
                 writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                continue;
+            }
+            if (!currencyManipulatorService.hasManipulator(request)) {
+                System.out.println("Not including this manipulator. Try another currency");
                 continue;
             }
             return request.toUpperCase();

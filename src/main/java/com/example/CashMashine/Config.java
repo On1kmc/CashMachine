@@ -1,6 +1,5 @@
 package com.example.CashMashine;
 
-import com.example.CashMashine.command.CommandExecutor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -17,7 +16,7 @@ public class Config {
     @Scope(value = "prototype")
     public ResourceBundleMessageSource resourceBundleMessageSource() {
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-        resourceBundleMessageSource.setDefaultLocale(Locale.ENGLISH);
+        resourceBundleMessageSource.setDefaultLocale(Locale.getDefault());
         return resourceBundleMessageSource;
     }
 

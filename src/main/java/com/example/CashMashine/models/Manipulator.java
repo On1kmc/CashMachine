@@ -13,26 +13,16 @@ public class Manipulator {
     private int id;
     private String currency;
 
-    @OneToMany(mappedBy = "manipulator")
+    @OneToMany(mappedBy = "manipulator", fetch = FetchType.EAGER)
     private List<Banknote> banknotes;
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currencyCode) {
-        this.currency = currencyCode;
-    }
 
     public List<Banknote> getBanknotes() {
         return banknotes;
     }
 
-    public void setBanknotes(List<Banknote> banknotes) {
-        this.banknotes = banknotes;
-    }
-
-    public int getId() {
-        return id;
-    }
 }
