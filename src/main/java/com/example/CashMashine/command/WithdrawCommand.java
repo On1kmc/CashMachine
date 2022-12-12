@@ -3,6 +3,7 @@ package com.example.CashMashine.command;
 import com.example.CashMashine.ConsoleHelper;
 import com.example.CashMashine.CurrencyManipulator;
 import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
 import com.example.CashMashine.exception.NotEnoughMoneyException;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -30,9 +31,16 @@ public class WithdrawCommand implements Command {
     @Override
     public void execute() throws InterruptOperationException {
         while (true) {
-            String currencyCode = consoleHelper.askCurrencyCode();
-            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.US));
-            String s = consoleHelper.readString();
+            String currencyCode;
+            String s;
+            try {
+                currencyCode = consoleHelper.askCurrencyCode();
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.US));
+                s = consoleHelper.readString();
+            } catch (CanceledOperationException e) {
+                consoleHelper.writeMessage("Operation canceled");
+                break;
+            }
             try {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
                 int count = Integer.parseInt(s);
@@ -47,7 +55,6 @@ public class WithdrawCommand implements Command {
                     break;
                 } catch (NotEnoughMoneyException e) {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exact.amount.not.available", new Object[]{}, Locale.US));
-                    continue;
                 }
             } catch (NumberFormatException e) {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.not.empty.amount", new Object[]{}, Locale.US));

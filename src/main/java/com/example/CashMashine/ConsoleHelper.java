@@ -2,6 +2,7 @@ package com.example.CashMashine;
 
 
 import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -28,11 +29,14 @@ public class ConsoleHelper {
         System.out.println(message);
     }
 
-    public String readString() throws InterruptOperationException {
+    public String readString() throws InterruptOperationException, CanceledOperationException {
             try {
                 String string = bis.readLine();
                 if (string.equalsIgnoreCase("exit")) {
                     throw new InterruptOperationException();
+                }
+                if (string.equalsIgnoreCase("cancel")) {
+                    throw new CanceledOperationException();
                 }
                 return string;
             } catch (IOException ignored) {
@@ -40,7 +44,7 @@ public class ConsoleHelper {
         return null;
     }
 
-    public Operation askOperation() throws InterruptOperationException {
+    public Operation askOperation() throws InterruptOperationException, CanceledOperationException {
         writeMessage(res.getMessage("choose.operation", new Object[]{}, Locale.US) +
                 "\n 1 - " + res.getMessage("operation.INFO", new Object[]{}, Locale.US) +
                 "\n 2 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.US) +
@@ -56,7 +60,7 @@ public class ConsoleHelper {
         }
     }
 
-    public String askCurrencyCode() throws InterruptOperationException {
+    public String askCurrencyCode() throws InterruptOperationException, CanceledOperationException {
         writeMessage(res.getMessage("choose.currency.code", new Object[]{}, Locale.US));
         while (true) {
             String request = readString();
@@ -68,8 +72,8 @@ public class ConsoleHelper {
         }
     }
 
-    public String[] getValidTwoDigits(String currencyCode) throws InterruptOperationException {
-        String[] operationParameters = null;
+    public String[] getValidTwoDigits() throws InterruptOperationException, CanceledOperationException {
+        String[] operationParameters;
         writeMessage(res.getMessage("choose.denomination.and.count.format", new Object[]{}, Locale.US));
         while (true) {
             String query = readString();

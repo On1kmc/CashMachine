@@ -2,6 +2,7 @@ package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
 import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -24,16 +25,15 @@ public class ExitCommand implements Command {
         this.consoleHelper = consoleHelper;
     }
 
-
-    public void setResourceBundleMessageSource(ResourceBundleMessageSource resourceBundleMessageSource) {
-        this.resourceBundleMessageSource = resourceBundleMessageSource;
-    }
     @Override
     public void execute() throws InterruptOperationException {
         consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exit.question.y.n", new Object[]{}, Locale.US));
-        if (consoleHelper.readString().toLowerCase().equals("y")) {
-            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("thank.message", new Object[]{}, Locale.US));
-        } else {
+        try {
+            if (consoleHelper.readString().equalsIgnoreCase("y")) {
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("thank.message", new Object[]{}, Locale.US));
+            } else {
+            }
+        } catch (CanceledOperationException ignored) {
         }
     }
 }

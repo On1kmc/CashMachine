@@ -2,6 +2,7 @@ package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
 import com.example.CashMashine.annotation.BundleResource;
+import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -24,9 +25,6 @@ public class LoginCommand implements Command {
         this.consoleHelper = consoleHelper;
     }
 
-    public void setResourceBundleMessageSource(ResourceBundleMessageSource resourceBundleMessageSource) {
-        this.resourceBundleMessageSource = resourceBundleMessageSource;
-    }
 
     @PostConstruct
     public void init() {
@@ -37,8 +35,15 @@ public class LoginCommand implements Command {
     public void execute() throws InterruptOperationException {
         while (true) {
             consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.data", new Object[]{}, Locale.US));
-            String creditCardNumber = consoleHelper.readString();
-            String pinStr = consoleHelper.readString();
+            String creditCardNumber;
+            String pinStr;
+            try {
+                creditCardNumber = consoleHelper.readString();
+                pinStr = consoleHelper.readString();
+            } catch (CanceledOperationException e) {
+                throw new InterruptOperationException();
+            }
+
             consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
             if (creditCardNumber == null || (creditCardNumber = creditCardNumber.trim()).length() != 12 ||
                     pinStr == null || (pinStr = pinStr.trim()).length() != 4) {
