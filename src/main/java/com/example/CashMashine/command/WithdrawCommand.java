@@ -2,7 +2,6 @@ package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
 import com.example.CashMashine.CurrencyManipulator;
-import com.example.CashMashine.CurrencyManipulatorFactory;
 import com.example.CashMashine.annotation.BundleResource;
 import com.example.CashMashine.exception.InterruptOperationException;
 import com.example.CashMashine.exception.NotEnoughMoneyException;
@@ -17,11 +16,14 @@ public class WithdrawCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
+    private final CurrencyManipulator currencyManipulator;
+
     @BundleResource(name = "locale.withdraw")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
-    public WithdrawCommand(ConsoleHelper consoleHelper) {
+    public WithdrawCommand(ConsoleHelper consoleHelper, CurrencyManipulator currencyManipulator) {
         this.consoleHelper = consoleHelper;
+        this.currencyManipulator = currencyManipulator;
     }
 
 
@@ -29,18 +31,17 @@ public class WithdrawCommand implements Command {
     public void execute() throws InterruptOperationException {
         while (true) {
             String currencyCode = consoleHelper.askCurrencyCode();
-            CurrencyManipulator manipulatorByCurrencyCode = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
             consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.US));
             String s = consoleHelper.readString();
             try {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
                 int count = Integer.parseInt(s);
-                if (!manipulatorByCurrencyCode.isAmountAvailable(count)) {
+                if (!currencyManipulator.isAmountAvailable(count, currencyCode)) {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("not.enough.money", new Object[]{}, Locale.US));
                     continue;
                 }
                 try {
-                    Map<Integer, Integer> withdrawAmount = manipulatorByCurrencyCode.withdrawAmount(count);
+                    Map<Integer, Integer> withdrawAmount = currencyManipulator.withdrawAmount(count, currencyCode);
                     withdrawAmount.forEach((key, value) -> consoleHelper.writeMessage("\t" + key + " - " + value));
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.US));
                     break;

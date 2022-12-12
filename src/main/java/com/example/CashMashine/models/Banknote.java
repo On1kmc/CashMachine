@@ -1,6 +1,5 @@
 package com.example.CashMashine.models;
 
-import com.example.CashMashine.CurrencyManipulator;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +17,7 @@ public class Banknote {
     private int count;
 
     @ManyToOne
-    @JoinColumn(name = "manipulator_id", referencedColumnName = "id")
+    @JoinColumn(name = "manipulator_currency", referencedColumnName = "currency")
     private Manipulator manipulator;
 
 

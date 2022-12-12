@@ -4,7 +4,6 @@ package com.example.CashMashine.command;
 
 import com.example.CashMashine.ConsoleHelper;
 import com.example.CashMashine.CurrencyManipulator;
-import com.example.CashMashine.CurrencyManipulatorFactory;
 import com.example.CashMashine.annotation.BundleResource;
 import com.example.CashMashine.exception.InterruptOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,12 @@ public class DepositCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
+    private final CurrencyManipulator currencyManipulator;
+
     @Autowired
-    public DepositCommand(ConsoleHelper consoleHelper) {
+    public DepositCommand(ConsoleHelper consoleHelper, CurrencyManipulator currencyManipulator) {
         this.consoleHelper = consoleHelper;
+        this.currencyManipulator = currencyManipulator;
     }
 
     public void setResourceBundleMessageSource(ResourceBundleMessageSource resourceBundleMessageSource) {
@@ -40,9 +42,7 @@ public class DepositCommand implements Command {
         String[] digits = consoleHelper.getValidTwoDigits(currencyCode);
         int denomination = Integer.parseInt(digits[0]);
         int count = Integer.parseInt(digits[1]);
-
-        CurrencyManipulator manipulatorByCurrencyCode = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(currencyCode);
-        manipulatorByCurrencyCode.addAmount(denomination, count);
+        currencyManipulator.addAmount(currencyCode, denomination, count);
         consoleHelper.writeMessage(String.format(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.US), (denomination * count), currencyCode));
 
     }

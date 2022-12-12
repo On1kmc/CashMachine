@@ -11,17 +11,17 @@ public class Manipulator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String currencyCode;
+    private String currency;
 
     @OneToMany(mappedBy = "manipulator")
     private List<Banknote> banknotes;
 
-    public String getCurrencyCode() {
-        return currencyCode;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setCurrencyCode(String currencyCode) {
-        this.currencyCode = currencyCode;
+    public void setCurrency(String currencyCode) {
+        this.currency = currencyCode;
     }
 
     public List<Banknote> getBanknotes() {

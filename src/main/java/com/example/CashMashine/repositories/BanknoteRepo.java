@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface BanknoteRepo extends JpaRepository<Banknote, Integer> {
 
     Banknote findAllByCurrencyAndNominal(String currency, int nominal);
+
+    List<Banknote> findAllByCurrency(String currency);
 }
