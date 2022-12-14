@@ -1,6 +1,8 @@
 package com.example.CashMashine.command;
 
+import com.example.CashMashine.exception.LogoutOperationException;
 import com.example.CashMashine.services.ConsoleHelper;
+import com.example.CashMashine.services.SessionService;
 import com.example.CashMashine.utils.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
@@ -20,18 +22,22 @@ public class ExitCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
 
+    private final SessionService sessionService;
+
     @Autowired
-    public ExitCommand(ConsoleHelper consoleHelper) {
+    public ExitCommand(ConsoleHelper consoleHelper, SessionService sessionService) {
         this.consoleHelper = consoleHelper;
+        this.sessionService = sessionService;
     }
 
     @Override
-    public void execute() throws InterruptOperationException {
+    public void execute() throws InterruptOperationException, LogoutOperationException {
         consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exit.question.y.n", new Object[]{}, Locale.US));
         try {
             if (consoleHelper.readString().equalsIgnoreCase("y")) {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("thank.message", new Object[]{}, Locale.US));
-            } else {
+                sessionService.setCard(null);
+                throw new LogoutOperationException();
             }
         } catch (CanceledOperationException ignored) {
         }

@@ -2,6 +2,7 @@ package com.example.CashMashine.command;
 
 
 
+import com.example.CashMashine.services.BillService;
 import com.example.CashMashine.services.ConsoleHelper;
 import com.example.CashMashine.services.CurrencyManipulatorService;
 import com.example.CashMashine.utils.BundleResource;
@@ -24,10 +25,13 @@ public class DepositCommand implements Command {
 
     private final CurrencyManipulatorService currencyManipulator;
 
+    private final BillService billService;
+
     @Autowired
-    public DepositCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator) {
+    public DepositCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator, BillService billService) {
         this.consoleHelper = consoleHelper;
         this.currencyManipulator = currencyManipulator;
+        this.billService = billService;
     }
 
 
@@ -41,7 +45,9 @@ public class DepositCommand implements Command {
             String[] digits = consoleHelper.getValidTwoDigits();
             int denomination = Integer.parseInt(digits[0]);
             int count = Integer.parseInt(digits[1]);
+            int cashForDeposit = denomination * count;
             currencyManipulator.addAmount(currencyCode, denomination, count);
+            billService.depositCash(cashForDeposit, currencyCode);
             consoleHelper.writeMessage(String.format(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.US), (denomination * count), currencyCode));
         } catch (CanceledOperationException e) {
             consoleHelper.writeMessage("Operation canceled");

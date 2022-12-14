@@ -1,5 +1,6 @@
 package com.example.CashMashine.command;
 
+import com.example.CashMashine.exception.LogoutOperationException;
 import com.example.CashMashine.utils.Operation;
 import com.example.CashMashine.exception.InterruptOperationException;
 import jakarta.annotation.PostConstruct;
@@ -45,7 +46,7 @@ public class CommandExecutor {
     }
 
 
-    public void execute(Operation operation) throws InterruptOperationException {
+    public void execute(Operation operation) throws InterruptOperationException, LogoutOperationException {
         allKnownCommandsMap.get(operation).execute();
     }
 

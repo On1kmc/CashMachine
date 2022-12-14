@@ -3,8 +3,8 @@ package com.example.CashMashine.utils;
 import com.example.CashMashine.command.CommandExecutor;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
+import com.example.CashMashine.exception.LogoutOperationException;
 import com.example.CashMashine.services.ConsoleHelper;
-import com.example.CashMashine.utils.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
@@ -27,13 +27,14 @@ public class CashMachine implements ApplicationListener<ApplicationStartedEvent>
         while (true) {
             try {
                 commandExecutor.execute(Operation.LOGIN);
-                do {
+                while (true) {
                     operation = consoleHelper.askOperation();
                     commandExecutor.execute(operation);
-                } while (operation != Operation.EXIT);
+                }
             } catch (InterruptOperationException | CanceledOperationException e) {
                 consoleHelper.printExitMessage();
                 System.exit(0);
+            } catch (LogoutOperationException ignored) {
             }
         }
     }
