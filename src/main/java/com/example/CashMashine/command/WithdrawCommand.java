@@ -36,30 +36,30 @@ public class WithdrawCommand implements Command {
             String s;
             try {
                 currencyCode = consoleHelper.askCurrencyCode();
-                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.US));
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.amount", new Object[]{}, Locale.getDefault()));
                 s = consoleHelper.readString();
             } catch (CanceledOperationException e) {
                 consoleHelper.writeMessage("Operation canceled");
                 break;
             }
             try {
-                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.getDefault()));
                 int count = Integer.parseInt(s);
                 if (!billService.hasNeededCash(count, currencyCode)) {
-                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("not.enough.money", new Object[]{}, Locale.US));
+                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("not.enough.money", new Object[]{}, Locale.getDefault()));
                     continue;
                 }
                 try {
                     Map<Integer, Integer> withdrawAmount = currencyManipulator.withdrawAmount(count, currencyCode);
                     billService.withdrawCash(count, currencyCode);
-                    withdrawAmount.forEach((key, value) -> consoleHelper.writeMessage("\t" + key + " - " + value));
-                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{count, currencyCode}, Locale.US));
+                    withdrawAmount.forEach((key, value) -> consoleHelper.writeMessage("\t" + key + " " + currencyCode + " - " + value + "pcs"));
+                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{count, currencyCode}, Locale.getDefault()));
                     break;
                 } catch (NotEnoughMoneyException e) {
-                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exact.amount.not.available", new Object[]{}, Locale.US));
+                    consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exact.amount.not.available", new Object[]{}, Locale.getDefault()));
                 }
             } catch (NumberFormatException e) {
-                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.not.empty.amount", new Object[]{}, Locale.US));
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("specify.not.empty.amount", new Object[]{}, Locale.getDefault()));
             }
         }
 

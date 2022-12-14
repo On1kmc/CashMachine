@@ -42,13 +42,13 @@ public class DepositCommand implements Command {
         consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("common.before", new Object[] {}, Locale.getDefault()));
         try {
             String currencyCode = consoleHelper.askCurrencyCode();
-            String[] digits = consoleHelper.getValidTwoDigits();
+            String[] digits = consoleHelper.getValidTwoDigits(currencyCode);
             int denomination = Integer.parseInt(digits[0]);
             int count = Integer.parseInt(digits[1]);
             int cashForDeposit = denomination * count;
             currencyManipulator.addAmount(currencyCode, denomination, count);
             billService.depositCash(cashForDeposit, currencyCode);
-            consoleHelper.writeMessage(String.format(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.US), (denomination * count), currencyCode));
+            consoleHelper.writeMessage(String.format(resourceBundleMessageSource.getMessage("success.format", new Object[]{}, Locale.getDefault()), (denomination * count), currencyCode));
         } catch (CanceledOperationException e) {
             consoleHelper.writeMessage("Operation canceled");
         }

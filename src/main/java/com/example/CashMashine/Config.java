@@ -1,6 +1,6 @@
 package com.example.CashMashine;
 
-import com.example.CashMashine.utils.CashMachine;
+import com.example.CashMashine.utils.CashMachineStarter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -22,8 +22,8 @@ public class Config {
     }
 
     @Bean
-    public CashMachine cashMachine() {
-        return new CashMachine();
+    public CashMachineStarter cashMachine() {
+        return new CashMachineStarter();
     }
 
     @Bean

@@ -32,10 +32,10 @@ public class ExitCommand implements Command {
 
     @Override
     public void execute() throws InterruptOperationException, LogoutOperationException {
-        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exit.question.y.n", new Object[]{}, Locale.US));
+        consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("exit.question.y.n", new Object[]{}, Locale.getDefault()));
         try {
             if (consoleHelper.readString().equalsIgnoreCase("y")) {
-                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("thank.message", new Object[]{}, Locale.US));
+                consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("thank.message", new Object[]{}, Locale.getDefault()));
                 sessionService.setCard(null);
                 throw new LogoutOperationException();
             }

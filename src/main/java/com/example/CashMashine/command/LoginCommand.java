@@ -50,7 +50,7 @@ public class LoginCommand implements Command {
                 throw new InterruptOperationException();
             }
 
-            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
+            consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.getDefault()));
             if (pinStr == null || (pinStr = pinStr.trim()).length() != 4) {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("try.again.with.details", new Object[]{}, Locale.getDefault()));
             } else {

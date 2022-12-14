@@ -50,58 +50,58 @@ public class ConsoleHelper {
     }
 
     public Operation askOperation() throws InterruptOperationException, CanceledOperationException {
-        writeMessage(res.getMessage("choose.operation", new Object[]{}, Locale.US) +
-                "\n 1 - " + res.getMessage("operation.INFO", new Object[]{}, Locale.US) +
-                "\n 2 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.US) +
-                "\n 3 - " + res.getMessage("operation.WITHDRAW", new Object[]{}, Locale.US) +
-                "\n 4 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.US) +
+        writeMessage(res.getMessage("choose.operation", new Object[]{}, Locale.getDefault()) +
+                "\n 1 - " + res.getMessage("operation.INFO", new Object[]{}, Locale.getDefault()) +
+                "\n 2 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.getDefault()) +
+                "\n 3 - " + res.getMessage("operation.WITHDRAW", new Object[]{}, Locale.getDefault()) +
+                "\n 4 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.getDefault()) +
                 "\n 5 - " + res.getMessage("operation.balance", new Object[]{}, Locale.getDefault()));
         while (true) {
             try {
                 String s = readString().trim();
                 return Operation.getAllowableOperationByOrdinal(Integer.parseInt(s));
             } catch (IllegalArgumentException e) {
-                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
             }
         }
     }
 
     public String askCurrencyCode() throws InterruptOperationException, CanceledOperationException {
-        writeMessage(res.getMessage("choose.currency.code", new Object[]{}, Locale.US));
+        writeMessage(res.getMessage("choose.currency.code", new Object[]{}, Locale.getDefault()));
         while (true) {
             String request = readString();
             if (request == null || request.length() != 3) {
-                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
                 continue;
             }
             if (!currencyManipulatorService.hasManipulator(request)) {
-                System.out.println("Not including this manipulator. Try another currency");
+                writeMessage(res.getMessage("currency.not.exist", new Object[]{}, Locale.getDefault()));
                 continue;
             }
             return request.toUpperCase();
         }
     }
 
-    public String[] getValidTwoDigits() throws InterruptOperationException, CanceledOperationException {
+    public String[] getValidTwoDigits(String currency) throws InterruptOperationException, CanceledOperationException {
         String[] operationParameters;
-        writeMessage(res.getMessage("choose.denomination.and.count.format", new Object[]{}, Locale.US));
+        writeMessage(res.getMessage("choose.denomination.and.count.format", new Object[]{currency}, Locale.getDefault()));
         while (true) {
             String query = readString();
             try {
                 if ((operationParameters = query.split(" ")).length != 2) {
-                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
                     continue;
                 }
                 if (Integer.parseInt(operationParameters[0]) <= 0) {
-                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
                     continue;
                 }
                 if (Integer.parseInt(operationParameters[1]) <= 0) {
-                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                    writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
                     continue;
                 }
             } catch (Exception e) {
-                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.US));
+                writeMessage(res.getMessage("invalid.data", new Object[]{}, Locale.getDefault()));
                 continue;
             }
             return operationParameters;
@@ -109,6 +109,6 @@ public class ConsoleHelper {
     }
 
     public void printExitMessage() {
-        writeMessage(res.getMessage("the.end", new Object[]{}, Locale.US));
+        writeMessage(res.getMessage("the.end", new Object[]{}, Locale.getDefault()));
     }
 }

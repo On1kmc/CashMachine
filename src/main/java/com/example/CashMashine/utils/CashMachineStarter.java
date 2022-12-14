@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationListener;
 import java.util.Locale;
 
 
-public class CashMachine implements ApplicationListener<ApplicationStartedEvent> {
+public class CashMachineStarter implements ApplicationListener<ApplicationStartedEvent> {
 
     @Autowired
     private CommandExecutor commandExecutor;
@@ -22,7 +22,8 @@ public class CashMachine implements ApplicationListener<ApplicationStartedEvent>
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        Locale.setDefault(Locale.ENGLISH);
+        System.out.println("Привет");
+        Locale.setDefault(Locale.CHINA);
         Operation operation;
         while (true) {
             try {
