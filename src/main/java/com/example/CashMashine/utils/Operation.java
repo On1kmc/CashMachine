@@ -14,13 +14,13 @@ public enum Operation {
             case 1:
                 return Operation.INFO;
             case 2:
-                return Operation.DEPOSIT;
-            case 3:
-                return Operation.WITHDRAW;
-            case 4:
-                return Operation.EXIT;
-            case 5:
                 return Operation.BALANCE;
+            case 3:
+                return Operation.DEPOSIT;
+            case 4:
+                return Operation.WITHDRAW;
+            case 5:
+                return Operation.EXIT;
             default:
                 throw new IllegalArgumentException();
         }

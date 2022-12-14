@@ -22,8 +22,6 @@ public class CashMachineStarter implements ApplicationListener<ApplicationStarte
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
-        System.out.println("Привет");
-        Locale.setDefault(Locale.CHINA);
         Operation operation;
         while (true) {
             try {

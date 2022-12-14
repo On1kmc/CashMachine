@@ -52,10 +52,10 @@ public class ConsoleHelper {
     public Operation askOperation() throws InterruptOperationException, CanceledOperationException {
         writeMessage(res.getMessage("choose.operation", new Object[]{}, Locale.getDefault()) +
                 "\n 1 - " + res.getMessage("operation.INFO", new Object[]{}, Locale.getDefault()) +
-                "\n 2 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.getDefault()) +
-                "\n 3 - " + res.getMessage("operation.WITHDRAW", new Object[]{}, Locale.getDefault()) +
-                "\n 4 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.getDefault()) +
-                "\n 5 - " + res.getMessage("operation.balance", new Object[]{}, Locale.getDefault()));
+                "\n 2 - " + res.getMessage("operation.balance", new Object[]{}, Locale.getDefault()) +
+                "\n 3 - " + res.getMessage("operation.DEPOSIT", new Object[]{}, Locale.getDefault()) +
+                "\n 4 - " + res.getMessage("operation.WITHDRAW", new Object[]{}, Locale.getDefault()) +
+                "\n 5 - " + res.getMessage("operation.EXIT", new Object[]{}, Locale.getDefault()));
         while (true) {
             try {
                 String s = readString().trim();
