@@ -2,7 +2,6 @@ package com.example.CashMashine.services;
 
 import com.example.CashMashine.models.Bill;
 import com.example.CashMashine.repositories.BillRepo;
-import com.example.CashMashine.repositories.CardRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +22,32 @@ public class BillService {
 
     @Transactional
     public void depositCash(int cashForDeposit, String currency) {
+        Bill bill = getBillByCurrency(currency);
+        bill.setBalance(bill.getBalance() + cashForDeposit);
+        billRepo.save(bill);
+    }
+
+    public boolean hasNeededCash(int expectedCash, String currency) {
+        Bill bill = getBillByCurrency(currency);
+        return bill.getBalance() >= expectedCash;
+    }
+
+
+    @Transactional
+    public void withdrawCash(int cashForWithdraw, String currency) {
+        Bill bill = getBillByCurrency(currency);
+        bill.setBalance(bill.getBalance() - cashForWithdraw);
+        billRepo.save(bill);
+    }
+
+
+    public Bill getBillByCurrency(String currency) {
         List<Bill> billList = sessionService.getInitializeCard().getBillList();
         for (Bill bill : billList) {
             if (bill.getCurrency().equalsIgnoreCase(currency)) {
-                bill.setBalance(bill.getBalance() + cashForDeposit);
-                billRepo.save(bill);
+                return bill;
             }
         }
+        return null;
     }
 }

@@ -17,7 +17,7 @@ import java.util.Locale;
 @Component
 public class ExitCommand implements Command {
 
-    @BundleResource(name = "locale.exit")
+    @BundleResource(path = "locale.exit")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
     private final ConsoleHelper consoleHelper;

@@ -57,10 +57,6 @@ public class CurrencyManipulatorService {
         return true;
     }
 
-    public boolean isAmountAvailable(int expectedAmount, String currency) {
-        return getTotalAmount(currency) >= expectedAmount;
-    }
-
     @Transactional
     public Map<Integer, Integer> withdrawAmount(int expectedAmount, String currency) throws NotEnoughMoneyException {
         List<Integer> list = new ArrayList<>(banknoteRepo.findAllByCurrency(currency).stream().map(Banknote::getNominal).toList());

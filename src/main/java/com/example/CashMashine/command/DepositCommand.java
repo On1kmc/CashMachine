@@ -18,7 +18,7 @@ import java.util.Locale;
 @Component
 public class DepositCommand implements Command {
 
-    @BundleResource(name = "locale.deposit")
+    @BundleResource(path = "locale.deposit")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
     private final ConsoleHelper consoleHelper;

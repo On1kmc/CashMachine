@@ -16,7 +16,7 @@ import java.util.Locale;
 @Component
 public class ConsoleHelper {
 
-    @BundleResource(name = "locale.common")
+    @BundleResource(path = "locale.common")
     private ResourceBundleMessageSource res;
 
     private final BufferedReader bis;

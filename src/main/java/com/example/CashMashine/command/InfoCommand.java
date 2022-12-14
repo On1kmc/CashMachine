@@ -22,7 +22,7 @@ public class InfoCommand implements Command {
 
     private final SessionService sessionService;
 
-    @BundleResource(name = "locale.info")
+    @BundleResource(path = "locale.info")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
     @Autowired

@@ -1,5 +1,6 @@
 package com.example.CashMashine.command;
 
+import com.example.CashMashine.services.BillService;
 import com.example.CashMashine.services.ConsoleHelper;
 import com.example.CashMashine.services.CurrencyManipulatorService;
 import com.example.CashMashine.utils.BundleResource;
@@ -16,15 +17,15 @@ import java.util.Map;
 public class WithdrawCommand implements Command {
 
     private final ConsoleHelper consoleHelper;
-
     private final CurrencyManipulatorService currencyManipulator;
-
-    @BundleResource(name = "locale.withdraw")
+    private final BillService billService;
+    @BundleResource(path = "locale.withdraw")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
-    public WithdrawCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator) {
+    public WithdrawCommand(ConsoleHelper consoleHelper, CurrencyManipulatorService currencyManipulator, BillService billService) {
         this.consoleHelper = consoleHelper;
         this.currencyManipulator = currencyManipulator;
+        this.billService = billService;
     }
 
 
@@ -44,12 +45,13 @@ public class WithdrawCommand implements Command {
             try {
                 consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("before", new Object[]{}, Locale.US));
                 int count = Integer.parseInt(s);
-                if (!currencyManipulator.isAmountAvailable(count, currencyCode)) {
+                if (!billService.hasNeededCash(count, currencyCode)) {
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("not.enough.money", new Object[]{}, Locale.US));
                     continue;
                 }
                 try {
                     Map<Integer, Integer> withdrawAmount = currencyManipulator.withdrawAmount(count, currencyCode);
+                    billService.withdrawCash(count, currencyCode);
                     withdrawAmount.forEach((key, value) -> consoleHelper.writeMessage("\t" + key + " - " + value));
                     consoleHelper.writeMessage(resourceBundleMessageSource.getMessage("success.format", new Object[]{count, currencyCode}, Locale.US));
                     break;

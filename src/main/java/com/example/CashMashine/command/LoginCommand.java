@@ -16,7 +16,7 @@ import java.util.Locale;
 
 @Component
 public class LoginCommand implements Command {
-    @BundleResource(name = "locale.login")
+    @BundleResource(path = "locale.login")
     private ResourceBundleMessageSource resourceBundleMessageSource;
 
     private final ConsoleHelper consoleHelper;

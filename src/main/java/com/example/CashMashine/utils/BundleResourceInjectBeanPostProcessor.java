@@ -26,7 +26,7 @@ public class BundleResourceInjectBeanPostProcessor implements BeanPostProcessor 
             if (annotation != null) {
                 s.setAccessible(true);
                 ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
-                resourceBundleMessageSource.setBasename(((BundleResource) annotation).name());
+                resourceBundleMessageSource.setBasename(((BundleResource) annotation).path());
                 ReflectionUtils.setField(s, bean, resourceBundleMessageSource);
             }
         }
