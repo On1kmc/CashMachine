@@ -5,6 +5,7 @@ import com.example.CashMashine.utils.Operation;
 import com.example.CashMashine.utils.BundleResource;
 import com.example.CashMashine.exception.CanceledOperationException;
 import com.example.CashMashine.exception.InterruptOperationException;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 @Component
+@Data
 public class ConsoleHelper {
 
     @BundleResource(path = "locale.common")
@@ -26,7 +28,6 @@ public class ConsoleHelper {
     @Autowired
     public ConsoleHelper(BufferedReader bis, CurrencyManipulatorService currencyManipulatorService) {
         this.bis = bis;
-
         this.currencyManipulatorService = currencyManipulatorService;
     }
 

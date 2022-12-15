@@ -1,11 +1,13 @@
 package com.example.CashMashine.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
 @Table(name = "manipulator")
+@Data
 public class Manipulator {
 
     @Id

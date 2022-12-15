@@ -52,7 +52,6 @@ public class CurrencyManipulatorService {
         return manipulatorRepo.findAll();
     }
 
-    // ме гюасдэ дндекюрэ
     public boolean hasMoney() {
         return true;
     }
